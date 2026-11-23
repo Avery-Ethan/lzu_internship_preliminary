@@ -1,0 +1,95 @@
+# 依赖 / 构建产物
+node_modules/
+dist/
+build/
+target/
+bin/
+vendor/
+
+## Python 缓存、虚拟环境与解释器产物
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+ENV/
+
+## Python 测试、覆盖率与静态检查
+.pytest_cache/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+.ipynb_checkpoints/
+
+## Python 打包产物
+*.egg-info/
+.eggs/
+*.egg
+wheels/
+
+## Java / Maven / Gradle
+*.class
+.gradle/
+out/
+dependency-reduced-pom.xml
+*.hprof
+
+## Go 编译、测试与覆盖率产物
+*.exe
+*.test
+cover.out
+coverage.out
+coverage.html
+*.prof
+*.pprof
+
+# 本地数据库与运行时文件
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
+*.log
+
+# 环境与密钥
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# 编辑器 / 系统
+.DS_Store
+.idea/
+.vscode/
+*.iml
+Thumbs.db
+
+# 临时/本地材料
+.internal/
+check-result.csv
+.~*
+~$*
+*.tmp
+.tmp-*
+
+# 注意：docs/internal/ 在**内部协作仓库**里是要提交的（同事/评审需要看缺陷清单）。
+# 建「学生可见」的仓库前，必须先删掉 docs/internal/，或把下面这行取消注释：
+# docs/internal/
