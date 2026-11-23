@@ -9,12 +9,12 @@
 | 项 | 内容 |
 |---|---|
 | 这是什么 | **摸底**。看你现在站到哪、习惯是什么，不是选拔赛 |
-| 你要做什么 | **只做你报的那个方向**，推到自己的分支，开一个 PR |
+| 你要做什么 | **只做你报的那个方向**。Fork 本仓库，在自己 fork 里开发，提 PR 到你的专属分支 |
 | 时间 | `2026.11.24 10:00` 发布 → `2026.11.26 10:00` 截止 |
-| 投入 | L0 约 3~5 小时；三层全做 8~12 小时 |
+| 投入 | L0 约 3~5 小时；三层全做 9~13 小时 |
 | 评分 | L0 40 + L1 15 + L2 10 + 设计说明 15 + **AI 使用 20**，共 100，**60 分及格** |
 | AI | 允许并鼓励，**每人一个独立账号、40 元额度**，全程记录 |
-| 提交 | 分支 `submit/<fe|be|qa>-<学号>-<拼音>` + 一个 PR |
+| 提交 | 预建分支 `<学号>` + 一个 PR（base 选你的学号分支，不是 main） |
 
 **两点先记住：**
 
@@ -43,10 +43,10 @@
 
 ---
 
-## 2. 仓库结构
+## 2. 仓库结构与提交模型
 
 ```
-main 分支（只有题目）
+main 分支（题目 + 模板，只有这些）
 ├── README.md
 ├── frontend/
 │   ├── README.md      ← 前端题目
@@ -57,35 +57,71 @@ main 分支（只有题目）
 │   ├── README.md      ← 测试题目
 │   ├── sut/           ← 被测服务（只读）
 │   └── legacy/        ← 待审查代码（只读）
-├── templates/         ← SUBMISSION / DESIGN / AI_USAGE
-└── scripts/           ← 收卷检查脚本
+└── templates/         ← SUBMISSION / DESIGN / AI_USAGE
+
+<学号>    ← 每人一个（就是你的学号），我们预先建好
+└── 你的整套项目
 ```
 
-**你的分支 = 你的项目。** 代码直接放在 `frontend/`、`backend/` 或 `testing/` 下，**不要建 `<学号>` 子目录**。
+### 2.1 一个人一个分支，但你没有本仓库的写权限
 
-> 为什么：34 个人各推一个分支，评审时我们只 checkout 你的分支，不合并、不联调。谁也不会因为别人的代码挂掉，你也别删别人的东西。
-
-**分支命名**（不合规会被收卷脚本拦）：
+**你不需要被加成 collaborator，也不需要 Write 权限。** 走 fork + PR：
 
 ```
-submit/<fe|be|qa>-<学号>-<姓名拼音小写连写>
+你的 fork（只有你能写）
+└── <学号>                    ← 你在这里改代码
+        │
+        │  PR：base = 本仓库的同名分支，head = 你 fork 的分支
+        ▼
+本仓库 <学号>                 ← 只有我们能合并
 ```
 
-✅ `submit/fe-320210912345-zhangsan`　❌ `submit/张三`、`feat/frontend`、`zhangsan`
+这样正好解决"互相覆盖"：
+
+- 你**推不动本仓库的任何分支**（连自己那个也不行），只改得动自己 fork 里的东西；
+- 34 个人的 PR 分别并进 34 个分支，**互不冲突、互不覆盖**；
+- 我们 merge 之后 `git checkout <学号>` 就是你交的最终版本。
+
+**分支名就是你的学号**（例如 `320210912345`），已经预建好，直接用；不要自己另建、也不要碰别人的。
+
+> 方向不写进分支名——发布时我们也不知道你选哪个方向。请在 **PR 标题**（`[FE]` / `[BE]` / `[QA]`）和 `SUBMISSION.md` 里写明：前端 / 后端 / 测试。
+
+✅ `320210912345`　❌ `submit/fe-zhangsan`、`feat/frontend`、`zhangsan`
+
+> 代码直接放在 `frontend/`、`backend/` 或 `testing/` 下，**不要建 `<学号>` 子目录**。
 
 ---
 
 ## 3. 开始
 
+**① Fork**：打开 <https://github.com/carso66/lzu_internship_preliminary> → 右上角 **Fork**，得到 `https://github.com/<你的账号>/lzu_internship_preliminary`。
+
+**② 克隆你自己的 fork，切到你的学号分支开发**：
+
 ```bash
-git clone <repo-url> && cd <repo>
-git checkout -b submit/fe-320210912345-zhangsan
+git clone https://github.com/<你的账号>/lzu_internship_preliminary.git
+cd lzu_internship_preliminary
+git checkout 320210912345                        # 换成你自己的学号
+
 # 前端：在 frontend/ 里建你的 Vite 项目
 # 后端：在 backend/ 里建你的 Maven / Go 项目
 # 测试：直接在 testing/ 下写文档和脚本
+# 把三份模板复制到你的方向目录（frontend/ 换成 backend/ 或 testing/）
 cp templates/SUBMISSION.md templates/DESIGN.md templates/AI_USAGE.md frontend/
+# git add 也用你的方向目录
 git add frontend && git commit -m "feat: 商品列表"
+git push -u origin 320210912345
 ```
+
+**③ 提 PR——base 一定要改成你自己的分支**：
+
+1. 推完仓库页会提示 **Compare & pull request**，点它（或 Contribute → Open pull request）；
+2. **base repository** 选 `carso66/lzu_internship_preliminary`，**base 分支从 `main` 改成你的学号**（如 `320210912345`）；
+3. head 选你 fork 里的学号分支；
+4. 标题：`[FE] 张三 320210912345`（后端 `[BE]`，测试 `[QA]`）——**方向只在这里体现**。
+
+之后每次 `git push` 都会自动更新这条 PR，不用重新提。截止前确认 PR 显示 **Able to merge**（无冲突），我们会把能合并的都并进你那个分支。
+如果 PR 已经被合并、你还要继续改，那就再开一条 PR（base 仍是你的分支），不用换分支。
 
 **提交节奏**：至少 4 次有意义的 commit（`feat: 商品列表` / `fix: 金额换算少了四舍五入` / `docs: 补设计说明`）。  
 一次推完整个过程不可见，设计说明会酌减。
@@ -141,6 +177,7 @@ pip install pytest requests -i https://pypi.tuna.tsinghua.edu.cn/simple
 **禁止**
 
 - ❌ 改题目、`mock/`、`sut/`、`legacy/`、别人的目录
+- ❌ 往别人的分支或 fork 提交、改别人的 PR
 - ❌ 提交真实密钥、真实手机号/身份证、他人隐私
 - ❌ 把账号额度给别人用
 - ❌ 交一个跑不起来且没有任何说明的工程
@@ -251,6 +288,15 @@ pip install pytest requests -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 **Q：能同时报两个方向吗？**  
 不能。选一个做到 L1，远好过两个都只开个头。
+
+**Q：PR 的 base 选错了（默认选了 `main`）怎么办？**  
+不用重开。在 PR 页面标题右边点 **Edit**，把 base 改成你的学号分支（如 `320210912345`）就行。
+
+**Q：fork 之后看不到自己的学号分支？**  
+说明你 fork 得比建分支早。执行 `git remote add upstream https://github.com/carso66/lzu_internship_preliminary.git && git fetch upstream`，再 `git checkout <学号>` 就有了。
+
+**Q：我的 fork 落后了、题目开考后更新了怎么办？**  
+`git remote add upstream https://github.com/carso66/lzu_internship_preliminary.git`，再 `git fetch upstream && git rebase upstream/main`，最后 `git push -f` 推回自己的 fork（强推**自己的 fork** 不算违规，别推本仓库就行）。
 
 **Q：有问题在哪问？**  
 置顶答疑 Issue，每天 10:30 / 18:00 集中回复。私聊的技术问题不保证回复。

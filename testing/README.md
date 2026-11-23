@@ -497,14 +497,16 @@ L0、L1 均需完成，L2 为选做。以下为完整作业要求，未完成也
 
 ### 8.1 开始作业时
 
-在仓库根目录创建自己的提交分支，并复制说明模板。分支名中的学号和拼音替换为自己的信息。
+先 Fork 本仓库，克隆你自己的 fork，切到你的学号分支，再复制说明模板。
 
 ```bash
-git checkout -b submit/qa-<学号>-<拼音>
+git clone https://github.com/<你的账号>/lzu_internship_preliminary.git
+cd lzu_internship_preliminary
+git checkout <学号>          # 例如 git checkout 320210912345
 cp templates/SUBMISSION.md templates/DESIGN.md templates/AI_USAGE.md testing/
 ```
 
-如果已经创建并处于自己的提交分支，继续在该分支完成作业。
+分支名就是你的学号，方向不写进分支名——请在 PR 标题里用 `[QA]` 标明方向。你没有本仓库的 Write 权限，只改自己 fork 里的分支，不会影响别人。
 
 ### 8.2 完成后提交
 
@@ -513,10 +515,10 @@ cp templates/SUBMISSION.md templates/DESIGN.md templates/AI_USAGE.md testing/
 ```bash
 git add testing
 git commit -m "test: 认证与商品接口用例集"
-git push -u origin submit/qa-<学号>-<拼音>
+git push -u origin <学号>
 ```
 
-推送后创建 PR，标题格式为 `[QA] 姓名 学号`，例如 `[QA] 张三 320210912345`。
+推送后创建 PR：**base 选本仓库的学号分支（不是 `main`）**，head 选你 fork 里的学号分支。标题格式为 `[QA] 姓名 学号`，例如 `[QA] 张三 320210912345`。
 
 ### 8.3 提交前自检
 

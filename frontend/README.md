@@ -42,7 +42,7 @@
 **你的分支本身就是你的项目**，不要建 `frontend/<学号>/` 这种子目录。
 
 ```
-你的分支（submit/fe-<学号>-<拼音>）
+你 fork 里的 <学号>
 └── frontend/
     ├── README.md          ← 题目（我们写的，别删别改）
     ├── mock/              ← 数据服务（我们写的，别动）
@@ -55,14 +55,18 @@
 ```
 
 ```bash
-git clone <repo> && cd <repo>
-git checkout -b submit/fe-<学号>-<拼音>
+# 1) 先在网页上 Fork，再克隆你自己的 fork
+git clone https://github.com/<你的账号>/lzu_internship_preliminary.git
+cd lzu_internship_preliminary
+git checkout <学号>      # 预建分支，例如 git checkout 320210912345
+
 cp templates/SUBMISSION.md templates/DESIGN.md templates/AI_USAGE.md frontend/
 # …… 开发，中途多提交几次（commit 数少于 3 个我们会看）
-git add frontend && git push -u origin submit/fe-<学号>-<拼音>
+git add frontend && git push -u origin <学号>
 ```
 
-PR 标题：`[FE] 张三 320210912345`
+**提 PR 时 base 要选本仓库的学号分支（默认是 `main`，必须改）**，head 选你 fork 里的学号分支。
+PR 标题：`[FE] 张三 320210912345`——方向只在这里体现。之后继续 push 会自动更新这条 PR。
 
 ---
 
@@ -435,7 +439,7 @@ curl -X POST http://127.0.0.1:3001/api/_reset  # 数据恢复初始状态
 - [ ] `SUBMISSION.md`、`DESIGN.md`、`AI_USAGE.md` 三份填完，**没有 TODO**
 - [ ] `screenshots/` 里至少 3 张（列表、发布表单、订单列表）
 - [ ] commit ≥ 3 个（一次全推上来我们会问）
-- [ ] 分支名是 `submit/fe-<学号>-<拼音>`
+- [ ] 分支名是你的学号（如 `320210912345`）
 
 ---
 
